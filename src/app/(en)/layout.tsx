@@ -1,0 +1,100 @@
+import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Providers } from '@/components/providers';
+import { Nav } from '@/components/layout/nav';
+import { Footer } from '@/components/layout/footer';
+import '../globals.css';
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jetbrains',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Noura Wafik',
+  jobTitle: 'Product Designer',
+  url: 'https://nourawafik.com',
+  email: 'hello@nourawafik.com',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Cairo',
+    addressCountry: 'EG',
+  },
+  sameAs: ['https://linkedin.com/in/nourawafik'],
+  knowsLanguage: ['en', 'ar'],
+  knowsAbout: [
+    'Product Design',
+    'SaaS Design',
+    'Healthtech',
+    'AI UX Design',
+    'Design Systems',
+    'Bilingual Design',
+    'Arabic UX',
+  ],
+};
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://nourawafik.com'),
+  title: {
+    default: 'Noura Wafik — Product Designer',
+    template: '%s — Noura Wafik',
+  },
+  description:
+    'Bilingual product designer based in Cairo, designing data-heavy SaaS, healthtech platforms, and AI tools across the Gulf, Egypt, and the US. Currently open to full-time roles.',
+  authors: [{ name: 'Noura Wafik' }],
+  creator: 'Noura Wafik',
+  openGraph: {
+    title: 'Noura Wafik — Product Designer',
+    description:
+      'Designing data-heavy SaaS, healthtech, and AI tools. Bilingual (Arabic/English). Based in Cairo, working with a UAE-based team on products for the Gulf, Egypt, and the US.',
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://nourawafik.com',
+    siteName: 'Noura Wafik',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  alternates: {
+    canonical: 'https://nourawafik.com',
+    languages: {
+      en: 'https://nourawafik.com',
+      ar: 'https://nourawafik.com/ar',
+    },
+  },
+};
+
+export default function EnLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, '\\u003c') }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col bg-background text-foreground">
+        <Providers>
+          <Nav />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
+      </body>
+    </html>
+  );
+}
